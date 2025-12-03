@@ -19,6 +19,6 @@ class MainActivity : AppCompatActivity() {
         // 3. Задайте View-то
         setContentView(binding.root)
 
-        // Тук вече не добавяме код, тъй като навигационният хост управлява показването на фрагментите
+
     }
 }

@@ -1,26 +1,4 @@
-//plugins {
-//    alias(libs.plugins.android.application)
-//    alias(libs.plugins.kotlin.android)
-//    id("com.google.devtools.ksp")
-//    id("kotlin-parcelize")
-//}
-//plugins {
-//    alias(libs.plugins.android.application)
-//    id("org.jetbrains.kotlin.android") // <--- Премахва alias, който може да носи грешна версия
-//    id("com.google.devtools.ksp")
-//    id("kotlin-parcelize")
-//}
-/*plugins {
-    alias(libs.plugins.android.application)
-    // Alias за Kotlin
-    alias(libs.plugins.kotlin.android)
 
-    // ПРИЛАГАНЕ НА KSP
-    id("com.google.devtools.ksp")// БЕЗ apply false
-
-    // Ако използвате Kotlin Parcelize:
-    id("kotlin-parcelize")
-}*/
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -62,38 +40,7 @@ android {
     }
 }
 
-/*
-dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 
-  // Архитектурни Компоненти (MVVM, Coroutines, Navigation)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
-
-    //  Room Database
-    val room_version = "2.6.1" // или 2.7.0+
-    implementation("androidx.room:room-runtime:$room_version")
-    ksp("androidx.room:room-compiler:$room_version") // Този ред е критичен
-    // Retrofit (по-нова стабилна версия)
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-
-// OkHttp Logging Interceptor (по-нова стабилна версия)
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
-}*/
 dependencies {
     // Връщаме всички зависимости към твърди, стабилни версии, за да избегнем конфликти с libs.
     // Core KTX & UI

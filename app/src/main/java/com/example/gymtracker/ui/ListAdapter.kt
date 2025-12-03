@@ -8,7 +8,7 @@ import com.example.gymtracker.data.model.Workout // <-- Вашият модел
 import androidx.recyclerview.widget.DiffUtil // (По-добър стил)
 class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
-    private var workoutList = emptyList<Workout>()
+     var workoutList = emptyList<Workout>()
 
     inner class MyViewHolder(private val binding: CustomRowBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(workout: Workout) {
@@ -20,7 +20,7 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        // "Напомпване" на layout-а с View Binding
+
         val binding = CustomRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)
     }
@@ -31,9 +31,9 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
     override fun getItemCount(): Int = workoutList.size
 
-    // Тази функция се вика от LiveData в ListFragment
+
     fun setData(newWorkouts: List<Workout>) {
         this.workoutList = newWorkouts
-        notifyDataSetChanged() // Може да се замени с DiffUtil за оптимизация
+        notifyDataSetChanged()
     }
 }

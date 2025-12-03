@@ -8,22 +8,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 
-// Импорти от вашия проект
 import com.example.gymtracker.R
 import com.example.gymtracker.databinding.FragmentListBinding
 import com.example.gymtracker.viewmodel.MainViewModel
-import com.example.gymtracker.data.model.Workout // Може да е нужен
-import com.example.gymtracker.ui.ListAdapter
+import com.example.gymtracker.data.model.Workout
 
 class ListFragment : Fragment() {
 
-    // ... (Променливи _binding, binding, mViewModel) ...
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private lateinit var mViewModel: MainViewModel
 
-    // Нова променлива за адаптера
     private val adapter: ListAdapter by lazy { ListAdapter() }
 
     override fun onCreateView(
@@ -39,39 +39,62 @@ class ListFragment : Fragment() {
 
         mViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        // 6. Сетъп на RecyclerView, Обзървъри и т.н.
         setupRecyclerView()
         observeData()
+        setupItemTouchHelper()
 
-        // Свързване на бутоните
-        // Трябва да имате FloatingActionButton с ID 'floatingActionButton' във fragment_list.xml
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
 
-        // Трябва да имате бутон с ID 'syncButton' във fragment_list.xml за оценка 6
-        // binding.syncButton.setOnClickListener {
-        //    mViewModel.syncWithCloud()
-        // }
+
     }
 
-    // 7. КЛЮЧОВО! Нулиране на binding-а
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     private fun setupRecyclerView() {
-        // Свързване на адаптера и задаване на LayoutManager
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun observeData() {
-        // Наблюдаване на LiveData от ViewModel-а
         mViewModel.readAllData.observe(viewLifecycleOwner) { workouts ->
-            // Обновява адаптера с новите данни от базата
             adapter.setData(workouts)
         }
+    }
+
+    private fun setupItemTouchHelper() {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val workoutToDelete = adapter.workoutList[position]
+
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Изтриване на ${workoutToDelete.name}")
+                    .setMessage("Сигурни ли сте, че искате да изтриете тази тренировка?")
+                    .setPositiveButton("Да") { _, _ ->
+                        mViewModel.deleteWorkout(workoutToDelete)
+                        Toast.makeText(requireContext(), "${workoutToDelete.name} изтрита!", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("Не") { dialog, _ ->
+                        adapter.notifyItemChanged(position)
+                        dialog.dismiss()
+                    }
+                    .show()
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
     }
 }
