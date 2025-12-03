@@ -18,7 +18,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     // LiveData, която UI-ят ще наблюдава.
     val readAllData: LiveData<List<Workout>>
-
+    // В MainViewModel.kt
+    fun getWorkoutById(workoutId: Long) = repository.getWorkoutById(workoutId)
     init {
         // 1. Взимаме инстанция на Database
         val workoutDao = GymDatabase.getDatabase(application).workoutDao()

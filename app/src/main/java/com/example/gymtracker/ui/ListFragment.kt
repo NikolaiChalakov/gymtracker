@@ -24,7 +24,12 @@ class ListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var mViewModel: MainViewModel
 
-    private val adapter: ListAdapter by lazy { ListAdapter() }
+    private val adapter: ListAdapter by lazy {
+        ListAdapter { workout ->
+            val action = ListFragmentDirections.actionListFragmentToAddFragment(workout.id.toLong())
+            findNavController().navigate(action)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,18 +42,23 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        // ➡️ Инициализация на ViewModel с обхват на Activity-то (за споделяне на данни)
+        mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         setupRecyclerView()
         observeData()
         setupItemTouchHelper()
 
+        // Слушател за Floating Action Button (Добавяне на нов запис)
         binding.floatingActionButton.setOnClickListener {
-            findNavController().navigate(R.id.action_listFragment_to_addFragment)
+            // Използваме Safe Args и подаваме -1L (стойност по подразбиране за нов запис)
+            val action = ListFragmentDirections.actionListFragmentToAddFragment(-1L)
+            findNavController().navigate(action)
         }
-
-
     }
+
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

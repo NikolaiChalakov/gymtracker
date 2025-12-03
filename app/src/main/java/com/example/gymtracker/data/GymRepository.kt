@@ -44,7 +44,10 @@ class GymRepository(private val workoutDao: WorkoutDao) {
             e.printStackTrace()
         }
     }
-
+    fun getWorkoutById(workoutId: Long): LiveData<Workout> {
+        // ➡️ Просто предаваме извикването към DAO
+        return workoutDao.getWorkoutById(workoutId)
+    }
     // Delete (по желание)
     suspend fun deleteWorkout(workout: Workout) {
         withContext(Dispatchers.IO) {

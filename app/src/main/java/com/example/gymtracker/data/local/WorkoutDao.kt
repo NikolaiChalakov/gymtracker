@@ -18,7 +18,8 @@ interface WorkoutDao {
     // 2. READ
     @Query("SELECT * FROM workouts ORDER BY timestamp DESC")
     fun getAllWorkouts(): LiveData<List<Workout>>
-
+    @Query("SELECT * FROM workouts WHERE id = :workoutId") // Уверете се, че "workouts" е името на вашата таблица
+    fun getWorkoutById(workoutId: Long): LiveData<Workout>
     // 3. DELETE ONE (Изтриване на един запис)
     @Delete
     suspend fun deleteWorkout(workout: Workout)

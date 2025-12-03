@@ -3,18 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/listFragment">  <fragment
-    android:id="@+id/listFragment"
-    android:name="com.example.gymtracker.ui.ListFragment"  android:label="Списък с Тренировки"
-    tools:layout="@layout/fragment_list" >
+    app:startDestination="@id/listFragment">
 
-    <action
-        android:id="@+id/action_listFragment_to_addFragment"  app:destination="@id/addFragment" />
-</fragment>
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.example.gymtracker.ui.ListFragment"
+        android:label="Списък с Тренировки"
+        tools:layout="@layout/fragment_list" >
+
+        <action
+            android:id="@+id/action_listFragment_to_addFragment"
+            app:destination="@id/addFragment">
+
+            <argument
+                android:name="workoutId"
+                app:argType="long"
+                android:defaultValue="-1L" />
+        </action>
+    </fragment>
 
     <fragment
         android:id="@+id/addFragment"
-        android:name="com.example.gymtracker.ui.AddFragment"  android:label="Добавяне на Тренировка"
-        tools:layout="@layout/fragment_add" />
+        android:name="com.example.gymtracker.ui.AddFragment"
+        android:label="Добавяне/Редактиране на Тренировка"
+        tools:layout="@layout/fragment_add">
+
+        <argument
+            android:name="workoutId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
 
 </navigation>

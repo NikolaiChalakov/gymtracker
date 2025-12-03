@@ -11,7 +11,7 @@ data class Workout(
     // id е уникален идентификатор и е Primary Key.
     // autoGenerate = true кара Room автоматично да увеличава ID-то при всяко ново вмъкване.
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
 
     // Полетата на таблицата:
     val name: String,
