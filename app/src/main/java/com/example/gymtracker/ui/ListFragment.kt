@@ -58,8 +58,6 @@ class ListFragment : Fragment() {
     }
 
 
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -81,7 +79,11 @@ class ListFragment : Fragment() {
             0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
                 return false
             }
 
@@ -94,7 +96,11 @@ class ListFragment : Fragment() {
                     .setMessage("Сигурни ли сте, че искате да изтриете тази тренировка?")
                     .setPositiveButton("Да") { _, _ ->
                         mViewModel.deleteWorkout(workoutToDelete)
-                        Toast.makeText(requireContext(), "${workoutToDelete.name} изтрита!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "${workoutToDelete.name} изтрита!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     .setNegativeButton("Не") { dialog, _ ->
                         adapter.notifyItemChanged(position)
@@ -106,5 +112,10 @@ class ListFragment : Fragment() {
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+        binding.syncButton.setOnClickListener {
+            mViewModel.syncWithCloud()
+            Toast.makeText(requireContext(), "Стартирана синхронизация...", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 }

@@ -6,25 +6,31 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.gymtracker.data.model.Workout // Импopтиpaйтe вaшия клac Workout
+import com.example.gymtracker.data.model.Workout
 
 @Dao
 interface WorkoutDao {
 
-    // 1. CREATE/UPDATE
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWorkout(workout: Workout)
 
-    // 2. READ
     @Query("SELECT * FROM workouts ORDER BY timestamp DESC")
     fun getAllWorkouts(): LiveData<List<Workout>>
-    @Query("SELECT * FROM workouts WHERE id = :workoutId") // Уверете се, че "workouts" е името на вашата таблица
+
+    @Query("SELECT * FROM workouts WHERE id = :workoutId")
     fun getWorkoutById(workoutId: Long): LiveData<Workout>
-    // 3. DELETE ONE (Изтриване на един запис)
+
     @Delete
     suspend fun deleteWorkout(workout: Workout)
 
-    // 4. DELETE ALL (Изтриване на всички записи - Полезно за тестване)
     @Query("DELETE FROM workouts")
     suspend fun deleteAllWorkouts()
+
+    // Метод за взимане на несинхронизираните записи
+    @Query("SELECT * FROM workouts WHERE apiId IS NULL")
+    suspend fun getUnsyncedWorkouts(): List<Workout>
+
+    @Query("SELECT id FROM workouts WHERE apiId = :apiId")
+    suspend fun getLocalWorkoutIdByApiId(apiId: String): Long?
+
 }

@@ -47,11 +47,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // 3. СИНХРОНИЗАЦИЯ (Оценка 6)
-    fun syncWithCloud() {
-        // Изпълняваме мрежовата и DB операция в Coroutine
-        // Тази функция вика Retrofit и записва данните в Room
+    fun syncWithCloud() { // Може да я преименувате на syncAll, но ще използваме това име
+        // ➡️ ИЗВИКВАМЕ ПЪЛНАТА ДВУПОСОЧНА СИНХРОНИЗАЦИЯ от Repository
         viewModelScope.launch {
-            repository.loadFromInternetAndSave()
+            repository.syncCloud() // ⬅️ КОРЕКЦИЯ: Вече използва пълната логика
         }
     }
 }
