@@ -42,7 +42,7 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ➡️ Инициализация на ViewModel с обхват на Activity-то (за споделяне на данни)
+        // Инициализация на ViewModel с обхват на Activity-то (за споделяне на данни)
         mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         setupRecyclerView()

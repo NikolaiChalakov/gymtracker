@@ -34,27 +34,22 @@ class GymRepository(private val workoutDao: WorkoutDao) {
                     var updatedRecords = 0
 
                     apiExercises.forEach { apiExercise ->
-                        // 1. ВАЖНО: Проверка дали записът вече съществува локално по неговия apiId
-                        // apiExercise.id трябва да е ID-то от външното API (String)
                         val apiIdString = apiExercise.id.toString()
-                        // Използваме workoutDao от конструктора
                         val existingLocalId = workoutDao.getLocalWorkoutIdByApiId(apiIdString)
 
                         val workoutToSave = if (existingLocalId != null) {
-                            // СЛУЧАЙ 1: Записът съществува - Използваме локалното ID за Update
                             updatedRecords++
                             Workout(
-                                id = existingLocalId, // <-- Това е КЛЮЧЪТ за UPDATE
+                                id = existingLocalId,
                                 name = apiExercise.exerciseName,
                                 muscleGroup = apiExercise.muscle ?: "Unknown",
                                 timestamp = System.currentTimeMillis(),
                                 apiId = apiIdString
                             )
                         } else {
-                            // СЛУЧАЙ 2: Записът е нов - Room ще генерира ново Primary Key
                             newRecords++
                             Workout(
-                                id = 0L, // <-- 0L казва на Room да генерира новото ID
+                                id = 0L,
                                 name = apiExercise.exerciseName,
                                 muscleGroup = apiExercise.muscle ?: "Unknown",
                                 timestamp = System.currentTimeMillis(),
@@ -62,8 +57,6 @@ class GymRepository(private val workoutDao: WorkoutDao) {
                             )
                         }
 
-                        // Insert с OnConflictStrategy.REPLACE ще обнови съществуващия запис
-                        // или ще вмъкне новия.
                         workoutDao.insertWorkout(workoutToSave)
                     }
                     Log.d("SYNC_DOWNLOAD", "Синхронизация завършена. Нови: $newRecords, Обновени: $updatedRecords")
@@ -90,8 +83,8 @@ class GymRepository(private val workoutDao: WorkoutDao) {
                 try {
                     // ⬇️ СЪЗДАВАНЕ НА ЗАЯВКА (FIX: Безопасно справяне с null)
                     val request = WorkoutRequest(
-                        exerciseName = localWorkout.name ?: "", // Ако е null, пращаме празен низ
-                        muscle = localWorkout.muscleGroup ?: "Unknown", // Ако е null, пращаме "Unknown"
+                        exerciseName = localWorkout.name ?: "",
+                        muscle = localWorkout.muscleGroup ?: "Unknown",
                         type = "strength",
                         difficulty = "medium"
                     )
@@ -102,7 +95,6 @@ class GymRepository(private val workoutDao: WorkoutDao) {
                         val createdApiWorkout = response.body()!!
                         Log.d("SYNC_UPLOAD", "УСПЕХ: Качен запис с ID: ${createdApiWorkout.id}")
 
-                        // Обновяваме локалния запис с новото ID от облака
                         val updatedWorkout = localWorkout.copy(apiId = createdApiWorkout.id)
                         workoutDao.insertWorkout(updatedWorkout)
                     } else {

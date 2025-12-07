@@ -10,5 +10,5 @@ data class Workout(
     val name: String?,
     val muscleGroup: String?,
     val timestamp: Long,
-    val apiId: String? = null // Полето за синхронизация
+    val apiId: String? = null
 )

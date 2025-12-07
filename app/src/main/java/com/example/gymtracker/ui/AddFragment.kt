@@ -19,19 +19,19 @@ class AddFragment : Fragment() {
     private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding!!
 
-    // ➡️ Съхраняваме ID-то на тренировката за режим Update
+    // Съхраняваме ID-то на тренировката за режим Update
     private var currentWorkoutId: Long = 0L
 
     // Използване на Safe Args делегат за достъп до аргументите
     private val args: AddFragmentArgs by navArgs()
-    // ➡️ КОРЕКЦИЯ: ДОБАВЕТЕ ТАЗИ ФУНКЦИЯ!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Инициализираме Binding-а
+
         _binding = FragmentAddBinding.inflate(inflater, container, false)
-        return binding.root // Връщаме кореновия View
+        return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,21 +42,21 @@ class AddFragment : Fragment() {
         currentWorkoutId = args.workoutId
 
         if (currentWorkoutId != -1L) {
-            // РЕЖИМ РЕДАКТИРАНЕ (Update)
+            // (Update)
             binding.saveButton.text = "Обнови Тренировката"
 
             // 2. ЗАРЕЖДАНЕ НА ДАННИТЕ ПО ID
             mViewModel.getWorkoutById(currentWorkoutId).observe(viewLifecycleOwner) { workout ->
-                // Проверяваме за null, тъй като LiveData може да се задейства
+
                 if (workout != null) {
-                    // Попълваме полетата с текущите данни на тренировката
+
                     binding.nameEt.setText(workout.name)
                     binding.muscleEt.setText(workout.muscleGroup)
-                    // (Ако има други полета, ги добавете тук)
+
                 }
             }
         } else {
-            // РЕЖИМ СЪЗДАВАНЕ (Create)
+            // (Create)
             binding.saveButton.text = "Запис на Тренировката"
         }
 
@@ -74,10 +74,10 @@ class AddFragment : Fragment() {
             return
         }
 
-        // 3. СЪЗДАВАНЕ НА ОБЕКТ (Insert/Update)
+        // 3.  (Insert/Update)
         val workout = Workout(
-            // ➡️ КЛЮЧЪТ: Ако currentWorkoutId е > 0, Room ще направи UPDATE.
-            // Ако е 0 (стойността по подразбиране, когато currentWorkoutId == -1L), Room ще направи INSERT.
+
+
             id = if (currentWorkoutId != -1L) currentWorkoutId else 0L,
             name = name,
             muscleGroup = muscle,

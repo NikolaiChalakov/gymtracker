@@ -6,6 +6,6 @@ data class WorkoutRequest(
     @SerializedName("name")
     val exerciseName: String,
     val muscle: String?,
-    val type: String? = "strength", // стойност по подразбиране
+    val type: String? = "strength",
     val difficulty: String? = "medium"
 )

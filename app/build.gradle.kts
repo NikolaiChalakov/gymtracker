@@ -43,7 +43,6 @@ android {
 
 
 dependencies {
-    // Връщаме всички зависимости към твърди, стабилни версии, за да избегнем конфликти с libs.
     // Core KTX & UI
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -67,16 +66,16 @@ dependencies {
     // Room Database
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version") // Добавяме ktx за coroutines поддръжка
+    implementation("androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
     // Retrofit (Стабилна версия)
-    val retrofit_version = "2.9.0" // Използваме 2.9.0, защото 2.11.0 изисква по-нови JDK/Kotlin
+    val retrofit_version = "2.9.0"
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
 
     // OkHttp Logging Interceptor (Стабилна версия 4.x)
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0") // Махаме alpha версията
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0") 
 
     // Testing
     testImplementation("junit:junit:4.13.2")
