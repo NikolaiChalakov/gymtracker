@@ -81,7 +81,7 @@ class GymRepository(private val workoutDao: WorkoutDao) {
 
             unsyncedWorkouts.forEach { localWorkout ->
                 try {
-                    // ⬇️ СЪЗДАВАНЕ НА ЗАЯВКА (FIX: Безопасно справяне с null)
+                    // ⬇️ СЪЗДАВАНЕ НА ЗАЯВКА
                     val request = WorkoutRequest(
                         exerciseName = localWorkout.name ?: "",
                         muscle = localWorkout.muscleGroup ?: "Unknown",

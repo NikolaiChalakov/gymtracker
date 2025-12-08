@@ -7,27 +7,15 @@ import com.example.gymtracker.databinding.ActivityMainBinding // ⬅️ Correct 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding // 1. Декларирайте променливата
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
-        // 2. Инициализирайте binding обекта - Този ред "инфлейтва" layout-а.
-        binding = ActivityMainBinding.inflate(layoutInflater) // <--- Тук се създава View йерархията
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        // 3. Задайте View-то - Този ред го прави активното съдържание на Activity-то.
-        setContentView(binding.root) // <--- View-то вече е зададено!
+        setContentView(binding.root)
 
-        // **РЕД 14 (ОРИГИНАЛЕН ПРОБЛЕМ):**
-        // Ако тук е бил старият ред за Window Insets, той вече трябва да работи,
-        // защото binding.root вече не е null.
-        // Ако използвате по-новия ViewCompat.setOnApplyWindowInsetsListener,
-        // той трябва да се приложи към коренния елемент (binding.root) или конкретен View.
 
-        // Пример (ако това е бил ред 14):
-        // ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
-        //     // ... вашата логика
-        // }
     }
 }

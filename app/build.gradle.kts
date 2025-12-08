@@ -75,7 +75,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
 
     // OkHttp Logging Interceptor (Стабилна версия 4.x)
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0") 
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

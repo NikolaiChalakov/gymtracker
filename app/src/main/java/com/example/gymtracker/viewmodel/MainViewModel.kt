@@ -41,7 +41,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // 3. СИНХРОНИЗАЦИЯ (Оценка 6)
+    // 3. СИНХРОНИЗАЦИЯ
     fun syncWithCloud() {
       viewModelScope.launch {
             repository.syncCloud()

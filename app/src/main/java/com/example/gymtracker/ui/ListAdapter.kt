@@ -21,7 +21,7 @@ class ListAdapter(
             binding.nameTxt.text = workout.name
             binding.muscleTxt.text = workout.muscleGroup
 
-            // ➡️ КЛИК СЛУШАТЕЛ за Редактиране (UPDATE)
+            // СЛУШАТЕЛ за Редактиране (UPDATE)
             binding.root.setOnClickListener {
                 onWorkoutClicked(workout)
             }

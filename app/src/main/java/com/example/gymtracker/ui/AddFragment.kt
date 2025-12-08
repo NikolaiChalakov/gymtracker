@@ -6,37 +6,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels // ⬅️ НОВ ИМПОРТ: За по-добро ViewModel делегиране
 import androidx.navigation.fragment.findNavController
 import com.example.gymtracker.data.model.Workout
 import com.example.gymtracker.databinding.FragmentAddBinding
 import com.example.gymtracker.viewmodel.MainViewModel
-import androidx.navigation.fragment.navArgs // ⬅️ Добавете този импорт за Safe Args
+import androidx.navigation.fragment.navArgs
 
 class AddFragment : Fragment() {
 
-    private lateinit var mViewModel: MainViewModel
+    private val mViewModel: MainViewModel by activityViewModels()
+
     private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding!!
 
-    // Съхраняваме ID-то на тренировката за режим Update
     private var currentWorkoutId: Long = 0L
 
-    // Използване на Safe Args делегат за достъп до аргументите
     private val args: AddFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentAddBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         // 1. ИЗВЛИЧАНЕ НА АРГУМЕНТА
         currentWorkoutId = args.workoutId
@@ -66,6 +65,7 @@ class AddFragment : Fragment() {
     }
 
     private fun saveOrUpdateData() {
+
         val name = binding.nameEt.text.toString()
         val muscle = binding.muscleEt.text.toString()
 
@@ -74,10 +74,8 @@ class AddFragment : Fragment() {
             return
         }
 
-        // 3.  (Insert/Update)
+        // 3. (Insert/Update)
         val workout = Workout(
-
-
             id = if (currentWorkoutId != -1L) currentWorkoutId else 0L,
             name = name,
             muscleGroup = muscle,
