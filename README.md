@@ -91,6 +91,6 @@
 
 ## 📦 APK
 
-<a href="https://github.com/NikolaiChalakov/gymtracker/tree/main/app/release/GymTracker.apk" download>
+<a href="https://raw.githubusercontent.com/NikolaiChalakov/gymtracker/main/app/release/GymTracker.apk" download>
   <strong>⬇️ Изтегли APK</strong>
 </a>
